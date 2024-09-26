@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CarController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -24,14 +26,18 @@ use Illuminate\Support\Facades\Route;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 //ROTTA GUEST
-Route::get('/', [PageController::class, 'index']);
+Route::get('/', [PageController::class, 'index'])->name('guestMain');
 
 //ROTTA ADMIN
 Route::middleware('auth')
         ->prefix('admin')
         ->name('admin.')
         ->group(function() {
-            
+            //Rotta principale dashboard
+            Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+            //Rotte CRUD cars
+            Route::resource('cars', CarController::class);
         });
 
 Route::middleware('auth')->group(function () {

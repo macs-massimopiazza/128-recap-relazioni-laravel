@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cars', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            // $table->string('brand', 70); //one to many con tabella "brands"
-            $table->string('model', 90);
-            $table->year('production_year');
-            $table->smallInteger('hp')->unsigned();
-            $table->string('fuel', 60);
-            $table->string('image')->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cars');
+        Schema::dropIfExists('brands');
     }
 };
