@@ -52,6 +52,16 @@
             <input type="text" name="image" id="image" class="form-control">
         </div>
 
+        @foreach ($accessories as $accessory)
+        <div class="form-check">
+            <input id="accessory-{{$accessory->id}}" class="form-check-input" type="checkbox" value="{{$accessory->id}}" name="accessories[]">
+            <label class="form-check-label" for="accessory-{{$accessory->id}}">
+                {{$accessory->name}}
+            </label>
+        </div>
+        @endforeach
+       
+
         <button type="submit" class="btn btn-primary">Add Car</button>
     </form>
 </div>

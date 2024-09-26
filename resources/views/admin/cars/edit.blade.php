@@ -63,6 +63,27 @@
             <input type="text" name="image" id="image" class="form-control" >
         </div>
 
+        @dump($car)
+        @dump($car->accessories)
+
+
+        @foreach ($accessories as $accessory)
+        <div class="form-check">
+            <input 
+                id="accessory-{{$accessory->id}}" 
+                class="form-check-input" 
+                type="checkbox" 
+                value="{{$accessory->id}}" 
+                name="accessories[]"
+                {{-- @if($car->accessories->contains($accessory)) checked @endif --}}
+                @checked($car->accessories->contains($accessory))
+            >
+            <label class="form-check-label" for="accessory-{{$accessory->id}}">
+                {{$accessory->name}}
+            </label>
+        </div>
+        @endforeach
+
         <!-- Pulsante per l'invio -->
         <button type="submit" class="btn btn-primary">Update Car</button>
     </form>

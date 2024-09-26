@@ -9,7 +9,15 @@
     <span class="badge bg-success">Anno di produzione: {{$car->production_year}}</span>
     
     <img src="{{$car->image}}" alt="" class="mt-4">
+    
+    <ul class="list-group">
+      @foreach ($car->accessories as $accessory)
+        <li class="list-group-item">{{$accessory->name}}</li>
+      @endforeach
+    </ul>
 
     <a href="{{route('admin.cars.index')}}" class="btn btn-primary mt-2 d-block" role="button">Indietro<a>
-  </div>
+  
+      
+    </div>
 @endsection

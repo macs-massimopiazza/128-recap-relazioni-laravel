@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accessory;
 use App\Models\Brand;
 use App\Models\Car;
 use Illuminate\Http\Request;
@@ -25,7 +26,8 @@ class CarController extends Controller
     public function create()
     {
         $brands = Brand::all();
-        return view('admin.cars.create', compact('brands'));
+        $accessories = Accessory::orderBy('name')->get();
+        return view('admin.cars.create', compact('brands', 'accessories'));
     }
 
     /**
@@ -39,10 +41,13 @@ class CarController extends Controller
             'hp' => 'required|integer|min:0',
             'fuel' => 'required|string|max:60',
             'image' => 'string|max:255|nullable', // L'immagine è opzionale
-            'brand_id' => 'exists:brands,id'
-        ]);;
+            'brand_id' => 'exists:brands,id',
+            'accessories' => 'exists:accessories,id',
+        ]);
 
         $car = Car::create($data);
+
+        $car->accessories()->attach($data['accessories']);
 
         return view('admin.cars.show', compact('car'));
     }
@@ -64,7 +69,9 @@ class CarController extends Controller
     {
         $car = Car::findOrFail($id);
         $brands = Brand::all();
-        return view('admin.cars.edit', compact('car', 'brands'));
+        $accessories = Accessory::orderBy('name')->get();
+
+        return view('admin.cars.edit', compact('car', 'brands', 'accessories'));
     }
 
     /**
@@ -78,11 +85,13 @@ class CarController extends Controller
             'hp' => 'required|integer|min:0',
             'fuel' => 'required|string|max:60',
             'image' => 'string|max:255|nullable', // L'immagine è opzionale
-            'brand_id' => 'exists:brands,id'
+            'brand_id' => 'exists:brands,id',
+            'accessories' => 'exists:accessories,id'
         ]);;
 
         $car = Car::find($id);
         $car->update($data);
+        $car->accessories()->sync($data['accessories']);
 
         return view('admin.cars.show', compact('car'));
     }
